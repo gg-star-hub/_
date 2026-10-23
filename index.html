@@ -1,547 +1,405 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>OpenAI vs Anthropic: 24-Hour Model & Agent Release Forecast</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f5f6f8;
-      --panel: #ffffff;
-      --text: #15171a;
-      --muted: #5f6773;
-      --line: #d8dde5;
-      --accent: #0f6b57;
-      --accent-soft: #e6f2ef;
-      --warn: #8a5a00;
-      --warn-soft: #fff4d8;
-      --code: #f0f3f6;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Chris Hubweber">
+<meta name="description" content="CHRIS HUBWEBER, Berlin. One HTML file, offline after it is opened. Contact is the X profile @PHANTOMP9.">
+<meta name="ai-disclosure" content="Drafted with Grok (xAI). Reviewed and published by Chris Hubweber, Berlin.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#efeae0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<title>CHRIS HUBWEBER — Berlin</title>
+<style>
+  :root {
+    --ink: #16140f;
+    --muted: #3a342c;
+    --paper: #efeae0;
+    --sheet: #f7f4ee;
+    --line: #cfc6b6;
+    --mark: #7a2216;
+  }
 
-    * {
-      box-sizing: border-box;
-    }
+  * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.55;
-    }
+  html { color-scheme: light; }
 
-    main {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 32px 20px 56px;
-    }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+  }
 
-    header {
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-    }
+  body::before {
+    content: "";
+    display: block;
+    height: 8px;
+    background: var(--mark);
+  }
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: 30px;
-      line-height: 1.2;
-      letter-spacing: 0;
-    }
+  ::selection {
+    background: var(--ink);
+    color: var(--paper);
+  }
 
-    h2 {
-      margin: 0 0 14px;
-      font-size: 20px;
-      letter-spacing: 0;
-    }
+  a {
+    color: inherit;
+    text-underline-offset: 3px;
+  }
 
-    h3 {
-      margin: 0 0 8px;
-      font-size: 16px;
-      letter-spacing: 0;
-    }
+  a:hover { text-decoration-thickness: 2px; }
 
-    p {
-      margin: 0 0 12px;
-    }
+  a:focus-visible {
+    outline: 2px solid var(--mark);
+    outline-offset: 3px;
+  }
 
-    a {
-      color: #064f8f;
-    }
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 28px 24px 72px;
+  }
 
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
+  .kicker, .nav, .ticket, .steps, .idx {
+    font-family: Consolas, "Cascadia Mono", "Segoe UI Mono", ui-monospace, monospace;
+  }
 
-    .meta div,
-    section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
+  .mast {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: flex-end;
+    padding-bottom: 18px;
+  }
 
-    .meta div {
-      padding: 12px 14px;
-    }
+  .kicker {
+    margin: 0 0 14px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
 
-    section {
-      margin: 16px 0;
-      padding: 18px;
-    }
+  h1 {
+    margin: 0;
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+    font-weight: 500;
+    font-size: clamp(2.15rem, 11vw, 5.2rem);
+    max-width: 100%;
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+  }
 
-    .label {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
+  h1 .lock { white-space: nowrap; }
 
-    .value {
-      display: block;
-      margin-top: 3px;
-      font-weight: 700;
-    }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin: 0;
+    font-size: 13px;
+  }
 
-    .callout {
-      border-color: #b7d8cf;
-      background: var(--accent-soft);
-    }
+  .nav a { text-decoration: none; border-bottom: 1px solid var(--ink); }
 
-    .warning {
-      border-color: #e6c778;
-      background: var(--warn-soft);
-    }
+  .rule {
+    height: 6px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    margin: 0;
+  }
 
-    .probability {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px;
-      margin: 12px 0;
-    }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.72fr);
+    gap: 56px;
+    align-items: start;
+    padding-top: 32px;
+  }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 700;
-      font-size: 14px;
-      white-space: nowrap;
-    }
+  .layout > *,
+  .steps li > span,
+  .bench li > *,
+  .line span,
+  .line b {
+    min-width: 0;
+  }
 
-    .badge.secondary {
-      background: #4b5563;
-    }
+  p, li, a, code, h1 {
+    overflow-wrap: break-word;
+  }
 
-    .badge.warn {
-      background: var(--warn);
-    }
+  .lede {
+    margin: 0 0 28px;
+    max-width: 38rem;
+    font-size: 1.2rem;
+    line-height: 1.45;
+  }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
-    }
+  section { margin-top: 34px; }
 
-    .item {
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-    }
+  .idx {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--mark);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+  }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-      background: #fff;
-      table-layout: fixed;
-    }
+  h2 {
+    margin: 0 0 10px;
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+    font-weight: 500;
+    font-size: 1.65rem;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
 
-    th,
-    td {
-      padding: 10px;
-      border: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-      overflow-wrap: anywhere;
-    }
+  p { margin: 0 0 12px; }
 
-    th {
-      background: #eef1f5;
-      font-size: 13px;
-    }
+  .bench {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+  }
 
-    ul {
-      margin: 8px 0 0;
-      padding-left: 20px;
-    }
+  .bench li {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
 
-    li {
-      margin: 6px 0;
-    }
+  .bench strong { font-weight: 650; }
 
-    code,
-    pre {
-      font-family: Consolas, Monaco, "Courier New", monospace;
-      background: var(--code);
-      border-radius: 6px;
-    }
+  .steps {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
 
-    code {
-      padding: 2px 4px;
-    }
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+  }
 
-    pre {
-      margin: 10px 0 0;
-      padding: 14px;
-      white-space: pre-wrap;
-      overflow-x: auto;
-      border: 1px solid var(--line);
-    }
+  .steps li::before {
+    content: counter(step, decimal-leading-zero);
+    color: var(--mark);
+  }
 
-    @media (max-width: 640px) {
-      main {
-        padding: 22px 12px 40px;
-      }
+  code {
+    font-family: Consolas, "Cascadia Mono", "Segoe UI Mono", ui-monospace, monospace;
+    font-size: 0.92em;
+    overflow-wrap: anywhere;
+  }
 
-      h1 {
-        font-size: 24px;
-      }
+  .side { position: sticky; top: 20px; }
 
-      section {
-        padding: 14px;
-      }
-    }
-  </style>
+  .stamp {
+    width: 104px;
+    height: 104px;
+    margin: 0 0 16px auto;
+    border: 2px solid var(--mark);
+    border-radius: 50%;
+    color: var(--mark);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 650;
+    transform: rotate(-8deg);
+    box-shadow: inset 0 0 0 5px var(--paper), inset 0 0 0 6px var(--mark);
+    background: var(--paper);
+  }
+
+  .ticket {
+    background: var(--sheet);
+    border: 1px solid var(--ink);
+    padding: 16px 18px 8px;
+  }
+
+  .ticket-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: -16px -18px 8px;
+    padding: 10px 18px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .line {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14.5px;
+  }
+
+  .line:last-child { border-bottom: 0; }
+
+  .dots {
+    border-bottom: 1px dotted #8a8172;
+    transform: translateY(-4px);
+  }
+
+  .line b {
+    font-weight: 650;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  .notice {
+    margin-top: 56px;
+    padding-top: 18px;
+    border-top: 3px solid var(--ink);
+    color: var(--muted);
+    font-size: 14.5px;
+  }
+
+  .notice h2 { font-size: 1.25rem; color: var(--ink); }
+
+  @media (max-width: 800px) {
+    .mast { display: block; }
+    .nav { margin-top: 18px; }
+    .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .side { position: static; }
+    .bench li { grid-template-columns: 1fr; gap: 2px; }
+    .stamp { margin-left: 0; }
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 22px 16px 56px; }
+    .line { grid-template-columns: 1fr; gap: 2px; }
+    .line b { text-align: left; }
+    .dots { display: none; }
+    .ticket-head { letter-spacing: 0.08em; }
+  }
+
+  @media print {
+    body::before { display: none; }
+    .side { position: static; }
+    a { text-decoration: none; }
+  }
+</style>
 </head>
 <body>
-  <main>
-    <header>
-      <h1>OpenAI vs Anthropic: 24-Hour Model &amp; Agent Release Forecast</h1>
-      <p>Report version v4.6-24H-NULL-AWARE-YAML converted to standalone HTML.</p>
-      <div class="meta">
-        <div>
-          <span class="label">Prepared At</span>
-          <span class="value">2026-05-17T23:18:27Z</span>
-        </div>
-        <div>
-          <span class="label">Forecast Window</span>
-          <span class="value">2026-05-17T23:18:27Z to 2026-05-18T23:18:27Z</span>
-        </div>
-        <div>
-          <span class="label">Sources Checked Through</span>
-          <span class="value">2026-05-17T23:18:27Z</span>
-        </div>
-        <div>
-          <span class="label">Positive Predictions</span>
-          <span class="value">0</span>
-        </div>
+  <div class="wrap">
+    <header class="mast">
+      <div>
+        <p class="kicker">@PHANTOMP9 · Berlin</p>
+        <h1><span class="lock">CHRIS</span><br><span class="lock">HUBWEBER</span></h1>
       </div>
+      <nav class="nav" aria-label="Page">
+        <a href="#file">The file</a>
+        <a href="#name">The name</a>
+        <a href="#bench">Bench</a>
+        <a href="#github">GitHub</a>
+        <a href="#notice">Notice</a>
+      </nav>
     </header>
+    <div class="rule" role="presentation"></div>
 
-    <section class="callout">
-      <h2>Bottom Line</h2>
-      <p>The highest-probability forecast is no scoreable OpenAI or Anthropic model, agent, cyber-model access, or cyber-agent release between <code>2026-05-17T23:18:27Z</code> and <code>2026-05-18T23:18:27Z</code>.</p>
-      <p>Recent official releases are real, including OpenAI personal finance, Codex remote access, Realtime 2, Daybreak, and Anthropic Claude for Small Business, finance agents, Opus 4.7, and Claude Platform agent updates. The checked official sources show no concrete dated signal for another release in this exact window.</p>
-      <div class="probability">
-        <span class="badge">No Material Release: 65%</span>
-        <span class="badge secondary">Band: plausible_but_fragile</span>
-      </div>
-    </section>
+    <div class="layout">
+      <main>
+        <p class="lede">One person. One HTML file. Open it with the network off. The file is the whole thing.</p>
 
-    <section>
-      <h2>Strict Scoring Policy</h2>
-      <ul>
-        <li>Exact window required: true.</li>
-        <li>Deadline inclusive: true.</li>
-        <li>Near misses count as true: false.</li>
-        <li>Deadline-day date-only sources require timestamp evidence.</li>
-        <li>Allowed timing evidence: official metadata, official RSS or Atom, official changelog timestamp, official Git or docs deploy timestamp, official social timestamp, or reputable timestamped secondary reporting.</li>
-      </ul>
-    </section>
+        <section id="file">
+          <span class="idx">01</span>
+          <h2>The file</h2>
+          <p>Each instrument on this bench is a single HTML file, or a small folder when a launcher is required. The file uses no outside font, script, icon, or image. After it loads, it does not call another site to keep working.</p>
+        </section>
 
-    <section>
-      <h2>No Material Release Forecast</h2>
-      <p><strong>Claim:</strong> No scoreable OpenAI or Anthropic model release, model availability release, model retirement, model card tied to a release, agent release, agent availability release, agent platform release, cyber-model access release, or cyber-agent release will occur inside the exact forecast window.</p>
-      <div class="grid">
-        <div class="item">
-          <h3>True If</h3>
-          <p>No official or reputable timestamped source confirms a scoreable OpenAI or Anthropic release inside the exact window.</p>
-        </div>
-        <div class="item">
-          <h3>False If</h3>
-          <p>Any scoreable OpenAI or Anthropic model, agent, cyber-model access, or cyber-agent release occurs inside the exact window.</p>
-        </div>
-        <div class="item">
-          <h3>Partial If</h3>
-          <p>A release appears just after the deadline or a date-only deadline source cannot be timestamped; audit-only, not true.</p>
-        </div>
-        <div class="item">
-          <h3>Unresolved If</h3>
-          <p>Official sources are inaccessible after good-faith checking and no reliable secondary timing source exists.</p>
-        </div>
-      </div>
-      <p><strong>Reasoning:</strong> No material release is more likely than any individual positive release because the checked official pages show no dated event, no fresh changelog movement, no visible model catalog surprise, and no official today or tomorrow language for this window. The main counterweight is that both labs have shipped frequently in May 2026 and the window includes a U.S. Monday workday.</p>
-    </section>
+        <section id="name">
+          <span class="idx">02</span>
+          <h2>The name</h2>
+          <p>The name on this page is CHRIS HUBWEBER. That is the display name on X. One person in Berlin. The name is not a product, a model, or a firm.</p>
+          <p>RasterGeo is a proof file on this bench. It is a geometric raster board in one file. It is not a separate name and not a download from this page.</p>
+        </section>
 
-    <section>
-      <h2>Sources</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Source</th>
-            <th>Lab</th>
-            <th>Date</th>
-            <th>Rating</th>
-            <th>Release Relevance</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>S1</td>
-            <td><a href="https://openai.com/news/product-releases/">OpenAI Product Releases</a></td>
-            <td>OpenAI</td>
-            <td>2026-05-15</td>
-            <td>E4</td>
-            <td>Official index for OpenAI product releases, including recent ChatGPT, Codex, and model-related launches.</td>
-          </tr>
-          <tr>
-            <td>S2</td>
-            <td><a href="https://developers.openai.com/api/docs/changelog">OpenAI API Changelog</a></td>
-            <td>OpenAI</td>
-            <td>2026-05-12</td>
-            <td>E4</td>
-            <td>Official API release log for model availability, model retirements, tools, and agent platform changes.</td>
-          </tr>
-          <tr>
-            <td>S3</td>
-            <td><a href="https://developers.openai.com/api/docs/models/all">OpenAI API Model Catalog</a></td>
-            <td>OpenAI</td>
-            <td>Undated</td>
-            <td>E4</td>
-            <td>Official current-state model catalog for OpenAI API availability.</td>
-          </tr>
-          <tr>
-            <td>S4</td>
-            <td><a href="https://developers.openai.com/codex/changelog">OpenAI Codex Changelog</a></td>
-            <td>OpenAI</td>
-            <td>2026-05-14</td>
-            <td>E4</td>
-            <td>Official Codex release log for agent availability, remote access, hooks, tokens, and enterprise controls.</td>
-          </tr>
-          <tr>
-            <td>S5</td>
-            <td><a href="https://openai.com/daybreak">OpenAI Daybreak</a></td>
-            <td>OpenAI</td>
-            <td>Undated</td>
-            <td>E4</td>
-            <td>Official cyber-defense product page relevant to GPT-5.5-Cyber, Trusted Access for Cyber, and Codex Security.</td>
-          </tr>
-          <tr>
-            <td>S6</td>
-            <td><a href="https://www.anthropic.com/news">Anthropic Newsroom</a></td>
-            <td>Anthropic</td>
-            <td>2026-05-14</td>
-            <td>E4</td>
-            <td>Official Anthropic index for model, product, agent, and cyber announcements.</td>
-          </tr>
-          <tr>
-            <td>S7</td>
-            <td><a href="https://platform.claude.com/docs/en/release-notes/overview">Claude Platform Release Notes</a></td>
-            <td>Anthropic</td>
-            <td>2026-05-12</td>
-            <td>E4</td>
-            <td>Official Claude Platform release notes for API models, Managed Agents, agent tools, and platform availability.</td>
-          </tr>
-          <tr>
-            <td>S8</td>
-            <td><a href="https://platform.claude.com/docs/en/about-claude/models/overview">Claude Models Overview</a></td>
-            <td>Anthropic</td>
-            <td>Undated</td>
-            <td>E4</td>
-            <td>Official current-state model catalog for Claude model availability and Mythos Preview status.</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+        <section id="bench">
+          <span class="idx">03</span>
+          <h2>On the bench</h2>
+          <p>Three files show the standard.</p>
+          <ul class="bench">
+            <li><strong>RasterGeo</strong><span>A geometric raster board. One file.</span></li>
+            <li><strong>AI-Builder-Bench</strong><span>A local tool from the same bench.</span></li>
+            <li><strong>Prompt-Forge</strong><span>A local tool from the same bench.</span></li>
+          </ul>
+        </section>
 
-    <section>
-      <h2>Checked Absences</h2>
-      <div class="grid">
-        <div class="item">
-          <h3>OpenAI Product Releases</h3>
-          <p>No visible OpenAI product item dated 2026-05-17 or 2026-05-18 at access time.</p>
-        </div>
-        <div class="item">
-          <h3>OpenAI API Changelog</h3>
-          <p>No visible API changelog entry after 2026-05-12 at access time.</p>
-        </div>
-        <div class="item">
-          <h3>OpenAI Codex Changelog</h3>
-          <p>No visible Codex changelog entry after 2026-05-14 at access time.</p>
-        </div>
-        <div class="item">
-          <h3>Anthropic Newsroom</h3>
-          <p>No visible model or agent launch dated 2026-05-17 or 2026-05-18 at access time.</p>
-        </div>
-        <div class="item">
-          <h3>Claude Platform Release Notes</h3>
-          <p>No visible Claude Platform release-note entry after 2026-05-12 at access time.</p>
-        </div>
-      </div>
-    </section>
+        <section id="github">
+          <span class="idx">04</span>
+          <h2>A public copy</h2>
+          <p>A public copy can sit on GitHub Pages. The file in the repository is the site.</p>
+          <ol class="steps">
+            <li><span>Create a public repository.</span></li>
+            <li><span>Put the HTML file in it and name that copy <code>index.html</code>.</span></li>
+            <li><span>Open Settings, then Pages.</span></li>
+            <li><span>Under Build and deployment, choose Deploy from a branch.</span></li>
+            <li><span>Choose branch <code>main</code> and folder <code>/ (root)</code>, then Save.</span></li>
+            <li><span>The site is <code>https://YOUR-NAME.github.io/YOUR-REPO/</code>.</span></li>
+          </ol>
+          <p>A repository named <code>YOUR-NAME.github.io</code> is served at <code>https://YOUR-NAME.github.io/</code>. This page never loads a file from another host, so the published copy stays that way.</p>
+        </section>
 
-    <section>
-      <h2>Forecast Edges</h2>
-      <div class="grid">
-        <div class="item">
-          <h3>Null Forecast Over Release-Cluster Extrapolation</h3>
-          <p>Recent launch cadence may make another near-term release feel likely, but without a dated commitment, staged docs, or fresh official changelog movement, no material release is still more likely.</p>
-        </div>
-        <div class="item">
-          <h3>Cyber Releases Are Important But Not Timed</h3>
-          <p>Daybreak, GPT-5.5-Cyber, Trusted Access for Cyber, and Mythos Preview create a visible cyber race, but the public timing evidence does not justify a positive 24-hour prediction.</p>
-        </div>
-        <div class="item">
-          <h3>Agent Stack Activity Without Fresh Trigger</h3>
-          <p>Codex, Claude Code, Claude Cowork, and Claude Managed Agents are active release surfaces, but checked official sources show no fresh 2026-05-17 or 2026-05-18 trigger.</p>
-        </div>
-      </div>
-    </section>
+        <section id="person">
+          <span class="idx">05</span>
+          <h2>The person</h2>
+          <p>One person: CHRIS HUBWEBER, Berlin. The X handle is <a href="https://x.com/PHANTOMP9">@PHANTOMP9</a>. The profile also gives the name 克里斯·胡布维伯, and it lists no website. A question about these files can go there.</p>
+        </section>
+      </main>
 
-    <section>
-      <h2>Scenarios</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Scenario</th>
-            <th>Probability</th>
-            <th>Confirming Signal</th>
-            <th>Abandon If</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>No scoreable OpenAI or Anthropic model, agent, cyber-model, or cyber-agent release.</td>
-            <td>65%</td>
-            <td>Official sources remain unchanged or only show non-release posts through 2026-05-18T23:18:27Z.</td>
-            <td>A named model, agent, cyber-model access path, or cyber-agent release appears with timestamp evidence inside the window.</td>
-          </tr>
-          <tr>
-            <td>One lab ships a scoreable agent or model availability update.</td>
-            <td>25%</td>
-            <td>A new official product page, API changelog entry, Codex changelog entry, Claude Platform release note, or newsroom post appears.</td>
-            <td>No official release source changes by the end of the U.S. business day on 2026-05-18.</td>
-          </tr>
-          <tr>
-            <td>Ambiguous date-only or post-window near miss.</td>
-            <td>10%</td>
-            <td>A same-day source appears without timestamp evidence, or a release appears shortly after 2026-05-18T23:18:27Z.</td>
-            <td>Exact timestamp evidence cleanly places the event inside or outside the window.</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+      <aside class="side">
+        <div class="stamp">C.H.</div>
+        <div class="ticket" aria-label="Bench card">
+          <div class="ticket-head">
+            <span>Bench</span>
+            <span>2026</span>
+          </div>
+          <div class="line"><span>Name</span><span class="dots"></span><b>CHRIS HUBWEBER</b></div>
+          <div class="line"><span>X</span><span class="dots"></span><b>@PHANTOMP9</b></div>
+          <div class="line"><span>Place</span><span class="dots"></span><b>Berlin</b></div>
+          <div class="line"><span>File</span><span class="dots"></span><b>one HTML file</b></div>
+          <div class="line"><span>After open</span><span class="dots"></span><b>network off</b></div>
+          <div class="line"><span>Public copy</span><span class="dots"></span><b>GitHub Pages</b></div>
+          <div class="line"><span>Website</span><span class="dots"></span><b>none</b></div>
+          <div class="line"><span>Sign-in</span><span class="dots"></span><b>none</b></div>
+          <div class="line"><span>Scripts</span><span class="dots"></span><b>none</b></div>
+        </div>
+      </aside>
+    </div>
 
-    <section class="warning">
-      <h2>Timing Risks</h2>
-      <ul>
-        <li>Date-only sources could make same-day scoring ambiguous.</li>
-        <li>A release shortly after <code>2026-05-18T23:18:27Z</code> could look like a near miss.</li>
-        <li>Undated model catalog or product page edits could reflect availability changes without visible publication time.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Watchlist</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Watch</th>
-            <th>Where</th>
-            <th>Meaning</th>
-            <th>Timing Verification</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>New OpenAI product release entry</td>
-            <td><a href="https://openai.com/news/product-releases/">OpenAI Product Releases</a></td>
-            <td>A named ChatGPT, Codex, model, or cyber product release may falsify the null forecast.</td>
-            <td>Check page metadata, RSS, official social timestamp, and reputable timestamped reporting.</td>
-          </tr>
-          <tr>
-            <td>New OpenAI API changelog or model catalog entry</td>
-            <td><a href="https://developers.openai.com/api/docs/changelog">OpenAI API Changelog</a></td>
-            <td>A new model ID, availability change, retirement, or API release may falsify the null forecast.</td>
-            <td>Use official changelog date plus metadata, RSS, or docs deploy timestamp if the entry is date-only.</td>
-          </tr>
-          <tr>
-            <td>New OpenAI Codex changelog entry</td>
-            <td><a href="https://developers.openai.com/codex/changelog">OpenAI Codex Changelog</a></td>
-            <td>A Codex availability, remote access, hooks, token, sandbox, or enterprise-control release may falsify the null forecast.</td>
-            <td>Use official changelog date plus docs metadata or reputable timestamped reporting.</td>
-          </tr>
-          <tr>
-            <td>New Anthropic newsroom item</td>
-            <td><a href="https://www.anthropic.com/news">Anthropic Newsroom</a></td>
-            <td>A Claude model, agent, cyber, or availability launch may falsify the null forecast.</td>
-            <td>Check official page metadata, newsroom index, RSS if available, and timestamped secondary reporting.</td>
-          </tr>
-          <tr>
-            <td>New Claude Platform release note or model overview change</td>
-            <td><a href="https://platform.claude.com/docs/en/release-notes/overview">Claude Platform Release Notes</a></td>
-            <td>A Claude API model, Managed Agents, Mythos, or model retirement release may falsify the null forecast.</td>
-            <td>Use official docs metadata, Git/docs deploy timestamp, or reputable timestamped secondary reporting.</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section>
-      <h2>Key Takeaways</h2>
-      <div class="grid">
-        <div class="item">
-          <h3>Developers</h3>
-          <p>No new model or agent integration change is forecast as more likely than no release. Keep current model routing and agent integration plans unchanged during the window.</p>
-        </div>
-        <div class="item">
-          <h3>Businesses</h3>
-          <p>Procurement and deployment decisions should not move on release-cluster speculation alone. Monitor official release pages but do not rebaseline vendor plans unless a named release lands.</p>
-        </div>
-        <div class="item">
-          <h3>Safety or Security Researchers</h3>
-          <p>Cyber-model and cyber-agent access paths remain high-value watch items but lack a 24-hour timing signal. Keep eval and monitoring plans ready for Daybreak, GPT-5.5-Cyber, Mythos Preview, and Claude Security changes.</p>
-        </div>
-        <div class="item">
-          <h3>OpenAI Position</h3>
-          <p>OpenAI has visible recent Codex, Daybreak, and model-release activity, but no checked official signal for another exact-window release.</p>
-        </div>
-        <div class="item">
-          <h3>Anthropic Position</h3>
-          <p>Anthropic has active Claude Platform, Managed Agents, Claude Code, and Mythos surfaces, but no checked official signal for another exact-window release.</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Conclusion</h2>
-      <p>The most likely outcome is no scoreable OpenAI or Anthropic model, agent, cyber-model access, or cyber-agent release by <code>2026-05-18T23:18:27Z</code>. The forecast is not high confidence because both labs have frequent recent release activity and the window includes a U.S. Monday, but the checked official evidence is absence-heavy and timing-fragile rather than launch-positive.</p>
-      <p>If wrong, the highest-value miss is likely an agent availability or cyber access release from Codex, Claude Managed Agents, Daybreak, GPT-5.5-Cyber, or Mythos. OpenAI has the more visible near-term cyber and Codex watch surface; Anthropic has the clearer Managed Agents and Claude model catalog watch surface.</p>
-      <p><strong>Decision priority:</strong> Monitor official release and changelog surfaces without changing deployment plans until a named release lands.</p>
-      <p><strong>Highest-value signal:</strong> A timestamped official changelog, model catalog update, product page, or official social post inside the window.</p>
-    </section>
-  </main>
+    <footer class="notice" id="notice">
+      <span class="idx">Notice</span>
+      <h2>Who is responsible</h2>
+      <p>Chris Hubweber (克里斯·胡布维伯), Berlin, Germany, is the person responsible for this file. Contact is only <a href="https://x.com/PHANTOMP9">https://x.com/PHANTOMP9</a>. That profile has no website.</p>
+      <p>The name on this page is CHRIS HUBWEBER. It is not a company, not an institute, and not a commercial-register entry. No VAT identification number is stated here.</p>
+      <p>This is a private publication by a natural person. It is not commercial telemedia under § 5 of the German Digitale-Dienste-Gesetz (DDG), so a commercial imprint address is not part of this page. It is not a journalistic-editorial service under § 18 of the Medienstaatsvertrag (MStV). Nothing on this page is an offer of goods or services. Reading it makes no contract.</p>
+      <p>This file sets no cookie, runs no script, and sends no data to the author. No sign-in is asked for. A host that serves a copy processes connection data under its own notice. The author does not receive that data.</p>
+      <p>The text was drafted with Grok, an AI system from xAI, and reviewed by Chris Hubweber. He owns publication. This page is not an AI system and does not interact as one. © 2026 Chris Hubweber. Text, layout, and the mark in this file are original. No third-party font, script, icon, or image is included.</p>
+      <p lang="de">Anbieterkennzeichnung. Verantwortlich für diese Datei: Chris Hubweber (克里斯·胡布维伯), Berlin, Deutschland. Kontakt ausschließlich über <a href="https://x.com/PHANTOMP9">https://x.com/PHANTOMP9</a>. Private Veröffentlichung einer natürlichen Person, kein geschäftsmäßiges Telemedium im Sinne von § 5 DDG und kein journalistisch-redaktionelles Angebot im Sinne von § 18 MStV. Deshalb steht hier keine ladungsfähige Anschrift. Es wird nichts angeboten und durch das Lesen kein Vertrag geschlossen. Der Name auf dieser Seite ist CHRIS HUBWEBER. Das ist kein Unternehmen, keine Einrichtung und keine Handelsregistereintragung. Eine Umsatzsteuer-Identifikationsnummer wird hier nicht genannt. Diese Datei setzt kein Cookie, führt kein Skript aus und sendet keine Daten an den Autor. Ein Host, der eine Kopie ausliefert, verarbeitet Verbindungsdaten nach seiner eigenen Unterrichtung. Der Text wurde mit Grok (xAI) entworfen und von Chris Hubweber geprüft. Er verantwortet die Veröffentlichung. © 2026 Chris Hubweber.</p>
+    </footer>
+  </div>
 </body>
 </html>
